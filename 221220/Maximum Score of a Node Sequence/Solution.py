@@ -1,7 +1,10 @@
+from typing import List
+import bisect
+import collections
+
+
 class Solution:
     def maximumScore(self, A: List[int], E: List[List[int]]) -> int:
-        n = len(A)
-
         # Store the top 3 neighbors of a node.
         top3 = collections.defaultdict(list)
 
