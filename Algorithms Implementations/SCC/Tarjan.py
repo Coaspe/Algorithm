@@ -28,8 +28,7 @@ class Graph:
 
     # 깊이 우선 탐색
     def dfs(self, at, low, ids, onStack, stack):
-        ids[at] = self.id
-        low[at] = self.id
+        ids[at] = low[at] = self.id
         self.id += 1  # id 부여
 
         onStack[at] = True  # 현재 노드 visited
@@ -44,6 +43,7 @@ class Graph:
 
         # SCC 결과 출력하기
         w = UNVISITED
+        
         if low[at] == ids[at]:
             print("Strongly Connected Components: ", end="")
             while w != at:
