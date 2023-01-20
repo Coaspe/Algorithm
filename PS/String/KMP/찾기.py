@@ -1,9 +1,11 @@
+string = input()
+pattern = input()
+
+
 def get_lsp(pattern):
     table = [0 for _ in range(len(pattern))]
     i = 0
-
     for j in range(1, len(pattern)):
-
         while i > 0 and pattern[i] != pattern[j]:
             i = table[i-1]
 
@@ -18,7 +20,6 @@ def kmp(string, pattern):
     table = get_lsp(pattern)
     result = []
     i = 0
-
     for j in range(len(string)):
         while i > 0 and pattern[i] != string[j]:
             i = table[i-1]
@@ -29,3 +30,10 @@ def kmp(string, pattern):
                 result.append(j - i + 1)
                 i = table[i-1]
     return result
+
+
+x = kmp(string, pattern)
+
+print(len(x))
+for idx, st in enumerate(x):
+    print(st+1, end=' ')
