@@ -23,7 +23,7 @@ class Graph:
         for i in range(self.v):
             if ids[i] == UNVISITED:  # 노드 i가 처음이면 dfs
                 self.dfs(i, low, ids, onStack, stack)
-                
+
         return low  # low-link 값이 같은 것끼리 SCC를 만든다.
 
     # 깊이 우선 탐색
@@ -43,7 +43,7 @@ class Graph:
 
         # SCC 결과 출력하기
         w = UNVISITED
-        
+
         if low[at] == ids[at]:
             print("Strongly Connected Components: ", end="")
             while w != at:
@@ -61,20 +61,9 @@ class Graph:
 
 
 if __name__ == "__main__":
-    g = Graph(8)  # 8 vertices
+    g = Graph(3)  # 3 vertices
     g.addEdge(0, 1)
     g.addEdge(1, 2)
-    g.addEdge(2, 0)
-    g.addEdge(3, 4)
-    g.addEdge(3, 7)
-    g.addEdge(4, 5)
-    g.addEdge(5, 0)
-    g.addEdge(5, 6)
-    g.addEdge(6, 0)
-    g.addEdge(6, 2)
-    g.addEdge(6, 4)
-    g.addEdge(7, 3)
-    g.addEdge(7, 5)
 
     # g.print()
     g.findSCCs()
