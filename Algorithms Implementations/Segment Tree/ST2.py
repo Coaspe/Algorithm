@@ -32,13 +32,12 @@ class Solution:
                 right -= 1
                 result += tree[right]
             right //= 2
-            print(left, right)
         return result
 
-    arr = [2, 3, 5, 1, 2, 4, 3]
+    arr = [1, 2, 3, 4, 5]
     size = len(arr)
     tree = [0] * (2 * size)
 
     build(arr, size, tree)
     print(tree)
-    print(query(1, 6, tree, size))
+    print(query(2, 5, tree, size))
