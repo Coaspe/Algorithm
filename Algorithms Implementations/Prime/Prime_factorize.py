@@ -10,7 +10,7 @@ def prime_factorize(n, k):
             return i, n
         i += 1
 
-    return 1, n
+    return 1,
 
 
 t = int(input())

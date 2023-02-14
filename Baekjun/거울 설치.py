@@ -32,14 +32,21 @@ while q:
         print(check[x][y][dir])
         break
     nx, ny = x + dx[dir], y + dy[dir]
+
     if 0 <= nx < n and 0 <= ny < n and arr[nx][ny] != '*':
         if check[nx][ny][dir] == -1 or check[nx][ny][dir] > check[x][y][dir]:
             check[nx][ny][dir] = check[x][y][dir]
             q.appendleft((nx, ny, dir))
 
         if arr[nx][ny] == '!':
-            c = 2 if dir < 2 else 0
-            for i in range(0 + c, 2 + c):
-                if check[nx][ny][i] == -1 or check[nx][ny][i] > check[x][y][dir] + 1:
-                    check[nx][ny][i] = check[x][y][dir] + 1
-                    q.append((nx, ny, i))
+            if dir < 2:
+                for n_dir in range(2, 4):
+                    if check[nx][ny][n_dir] == -1 or check[nx][ny][n_dir] > check[x][y][dir] + 1:
+                        check[nx][ny][n_dir] = check[x][y][dir] + 1
+                        q.append((nx, ny, n_dir))
+
+            else:
+                for n_dir in range(2):
+                    if check[nx][ny][n_dir] == -1 or check[nx][ny][n_dir] > check[x][y][dir] + 1:
+                        check[nx][ny][n_dir] = check[x][y][dir] + 1
+                        q.append((nx, ny, n_dir))

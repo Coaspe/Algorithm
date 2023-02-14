@@ -24,7 +24,10 @@ class FT:
 
 f = FT([1, 12, -5, -6, 50, 3])
 print(f.tree)
-print(f.sum(3))
+# f.update(1, 1)
+print(f.tree)
+print(f.sum(2))
+# ~ n-1
 """
 Time: log(n)
 """
