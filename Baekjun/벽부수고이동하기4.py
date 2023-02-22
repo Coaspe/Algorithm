@@ -1,9 +1,11 @@
 from collections import deque
 R, C = map(int, input().split())
-room = [input() for _ in range(R)]
-parent = [[(-1, -1)]*C for _ in range(R)]
-setset = [[0]*C for _ in range(R)]
-q = deque([])
+room = [list(map(int, input())) for _ in range(R)]
+room2 = [[0]*C for _ in range(R)]
+visited = [[False]*C for _ in range(R)]
+parent = [[(r, c) for c in range(C)] for r in range(R)]
+setset = [[1]*C for _ in range(R)]
+rank = [[0]*C for _ in range(R)]
 
 
 def find(r, c):
@@ -26,24 +28,37 @@ dx = [0, 0, 1, -1]
 dy = [1, -1, 0, 0]
 
 
-def dfs(prev, curr):
-    union(prev, curr)
-    for i in range(4):
-        nx, ny = curr[0]+dx[i], curr[1]+dy[i]
-        if 0 <= nx < R and 0 <= ny < C and room[nx][ny] == '0':
-            if (nx, ny) not in visited:
-                visited.add(curr)
-                dfs(curr, (nx, ny))
+def bfs(r, c):
+    q = deque([(r, c)])
+    visited[r][c] = True
+    while q:
+        x, y = q.popleft()
+        for i in range(4):
+            nx, ny = x+dx[i], y+dy[i]
+            if 0 <= nx < R and 0 <= ny < C and not visited[nx][ny] and room[nx][ny] == 0:
+                union((x, y), (nx, ny))
+                visited[nx][ny] = True
+                q.append((nx, ny))
 
 
-visited = set()
 for r in range(R):
     for c in range(C):
-        if room[r][c] == '0':
-            setset[r][c] += 1
-            visited.add((r, c))
-            parent[r][c] = (r, c)
-            dfs((None, None), (r, c))
+        if room[r][c] == 0 and not visited[r][c]:
+            visited[r][c] = True
+            bfs(r, c)
 
-print(setset)
-print(find(0, 2), find(0, 3))
+for r in range(R):
+    for c in range(C):
+        if room[r][c] == 1:
+            check = set()
+            ans = 1
+            for i in range(4):
+                nx, ny = r+dx[i], c+dy[i]
+                if 0 <= nx < R and 0 <= ny < C and room[nx][ny] == 0:
+                    nx, ny = find(nx, ny)
+                    if not (nx, ny) in check:
+                        check.add((nx, ny))
+                        ans += setset[nx][ny]
+            room2[r][c] = ans % 10
+for i in room2:
+    print("".join(map(str, i)))

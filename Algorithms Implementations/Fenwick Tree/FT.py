@@ -5,7 +5,7 @@ class FT:
         self.makeFT()
 
     def makeFT(self):
-        self.tree = [0]*(len(self.arr))
+        self.tree = [0]*len(self.arr)
         for i in range(1, len(self.arr)):
             self.update(i, self.arr[i])
 

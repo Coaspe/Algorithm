@@ -35,10 +35,12 @@ for tc in range(int(input())):
         a, b, d = map(int, input().split())
         graph[a].append([b, d])
         graph[b].append([a, d])
+
     departure = []
     for _ in range(t):
         departure.append(int(input()))
     departure.sort()
+
     INF = int(1e9)
     distance = [INF for _ in range(n+1)]
     check = [0 for _ in range(n+1)]

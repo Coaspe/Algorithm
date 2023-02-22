@@ -1,4 +1,3 @@
-import collections
 N, M, K = map(int, input().split())
 B = [input() for _ in range(N)]
 WORD = input()
