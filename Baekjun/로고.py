@@ -14,6 +14,7 @@ def union(p, c):
     if p != c:
         parent[c] = p
 
+
 def isCrossed(i, j):
     x1, y1, x2, y2 = points[i]
     x3, y3, x4, y4 = points[j]
@@ -25,6 +26,7 @@ def isCrossed(i, j):
     if x3 < x1 and x2 < x4 and y3 < y1 and y2 < y4:
         return False
     return True
+
 
 points = [tuple(map(lambda x: int(x)+500, input().split())) for _ in range(N)]
 

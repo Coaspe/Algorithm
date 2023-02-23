@@ -1,32 +1,38 @@
 N, M, K = map(int, input().split())
-B = [input() for _ in range(N)]
+G = [input() for _ in range(N)]
 WORD = input()
-start = []
-for r in range(N):
-    for c in range(M):
-        if B[r][c] == WORD[0]:
-            start.append((r, c))
-dx = [0]*2*K + [i for i in range(-K, 0)] + [i for i in range(1, K+1)]
-dy = dx[::-1]
-ans = 0
-check = [[[-1] * len(WORD) for _ in range(M)] for _ in range(N)]
+
+D = [[[-1 for _ in range(len(WORD))] for _ in range(M)] for _ in range(N)]
+
+dx, dy = [0, 0, 1, -1], [1, -1, 0, 0]
 
 
-def dfs(r, c, idx):
-    if idx == len(WORD):
+def DFS(x, y, idx):
+
+    if idx == 0:
+        D[x][y][0] = 1
         return 1
-    if check[r][c][idx] != -1:
-        return check[r][c][idx]
 
-    check[r][c][idx] = 0
+    tmp = 0
+    for k in range(1, K+1):
+        for d in range(4):
+            nx, ny = x+dx[d]*k, y+dy[d]*k
+            if 0 <= nx < N and 0 <= ny < M:
+                if G[nx][ny] == WORD[idx-1]:
+                    if D[nx][ny][idx-1] == -1:
+                        DFS(nx, ny, idx-1)
+                    tmp += D[nx][ny][idx-1]
+    D[x][y][idx] = tmp
+    return D[x][y][idx]
 
-    for i in range(len(dx)):
-        nx, ny = r+dx[i], c+dy[i]
-        if 0 <= nx < N and 0 <= ny < M and B[nx][ny] == WORD[idx]:
-            check[r][c][idx] += dfs(nx, ny, idx+1)
-    return check[r][c][idx]
 
+answer = 0
+for x in range(N):
+    for y in range(M):
+        if G[x][y] == WORD[-1]:
+            if D[x][y][len(WORD)-1] == -1:
+                answer += DFS(x, y, len(WORD)-1)
+            else:
+                answer += D[x][y][len(WORD)-1]
 
-for r, c in start:
-    ans += dfs(r, c, 1)
-print(ans)
+print(answer)

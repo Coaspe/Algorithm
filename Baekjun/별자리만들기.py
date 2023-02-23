@@ -24,27 +24,30 @@ for i in range(N):
 edges.sort(key=lambda x: x[2])
 
 
-def find(v):
-    if parent[v] != v:
-        parent[v] = find(parent[v])
-    return parent[v]
+def find(x):
+    if parent[x] != x:
+        parent[x] = find(parent[x])
+    return parent[x]
 
 
-def union_by_rank(p1, p2):
-    if rank[p1] > rank[p2]:
-        parent[p2] = p1
-    elif rank[p1] < rank[p2]:
-        parent[p1] = p2
+def union(p, c):
+    p = find(p)
+    c = find(c)
+
+    if rank[p] > rank[c]:
+        parent[c] = p
+    elif rank[c] > rank[p]:
+        parent[p] = c
     else:
-        parent[p2] = p1
-        rank[p1] += 1
+        parent[c] = p
+        rank[p] += 1
 
 
-answer = 0
-for s, e, w in edges:
-    p1 = find(s)
-    p2 = find(e)
-    if p1 != p2:
-        union_by_rank(p1, p2)
-        answer += w
-print("%0.2f" % answer)
+ans = 0
+for a, b, c in edges:
+    a = find(a)
+    b = find(b)
+    if a != b:
+        union(a, b)
+        ans += c
+print("%0.2f" % ans)

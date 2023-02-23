@@ -33,43 +33,29 @@ def bfs(n, m, my_map):
     que.append((start[0], start[1], 0, 0, 0))
 
     while que:
-        r, c, cnt, time, dirty_status = que.popleft()
+        r, c, cnt, time, status = que.popleft()
+
         if cnt == d_cnt:
-            answer = min(time, answer)
+            answer = min(answer, time)
+            break
 
-        for rr, cc in tra_list:
-            next_r = r + rr
-            next_c = c + cc
-            if -1 < next_r < n and -1 < next_c < m:
-
-                # 일반 통로나 로봇 청소기 시작 지점을 만남
-                # 현재 쓰레기 상태에서 이전에 방문했는지 확인 후, 방문하지 않으면 추가 탐색한다.
-                if my_map[next_r][next_c] == '.' or my_map[next_r][next_c] == 'o':
-                    if v[dirty_status][next_r][next_c] > time + 1:
-                        v[dirty_status][next_r][next_c] = time + 1
-                        que.append(
-                            (next_r, next_c, cnt, time + 1, dirty_status))
-
-                # 쓰레기를 만남.
-                # 처음 만난 쓰레기라면, 쓰레기 상태를 업데이트 해준 후, 업데이트 한 쓰레기 상태의 방문 노드에 방문 처리 해준다.
-                elif my_map[next_r][next_c] == '*':
-                    if dirty_status & 1 << vv.index((next_r, next_c)) == 0:
-                        next_dirty_status = dirty_status | 2 ** vv.index(
-                            (next_r, next_c))
-                        v[next_dirty_status][next_r][next_c] = time + 1
-                        que.append((next_r, next_c, cnt + 1,
-                                   time + 1, next_dirty_status))
-
-                # 내가 이미 치웠던 쓰레기라면, 현재 쓰레기 상태로 여기를 온 적이 있는지 확인.
-                # 일전에 이 상태로 온 적디 없다면, 현재 쓰레기 상태에서 방문 처리 한 후 추가 탐색한다.
-
+        for row, col in (r + 1, c), (r-1, c), (r, c+1), (r, c-1):
+            if 0 <= row < n and 0 <= col < m:
+                if my_map[row][col] == '.' or my_map[row][col] == 'o':
+                    if v[status][row][col] > time + 1:
+                        v[status][row][col] = time+1
+                        que.append((row, col, cnt, time+1, status))
+                elif my_map[row][col] == '*':
+                    if status & 1 << vv.index((row, col)) == 0:
+                        newStatus = status | 1 << vv.index((row, col))
+                        v[newStatus][row][col] = time+1
+                        que.append((row, col, cnt + 1, time + 1, newStatus))
                     else:
-                        if v[dirty_status][next_r][next_c] > time + 1:
-                            v[dirty_status][next_r][next_c] = time + 1
-                            que.append(
-                                (next_r, next_c, cnt, time + 1, dirty_status))
+                        if v[status][row][col] > time + 1:
+                            v[status][row][col] = time + 1
+                            que.append((row, col, cnt, time+1, status))
 
-    # answer가 초기값 그대로면 -1
+            # answer가 초기값 그대로면 -1
     if answer == 9876543210:
         print(-1)
         return
@@ -78,7 +64,6 @@ def bfs(n, m, my_map):
         return
 
 
-tra_list = [[1, 0], [0, 1], [-1, 0], [0, -1]]
 while 1:
 
     # 변수 입력 받기

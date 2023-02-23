@@ -32,8 +32,8 @@ while dq:
                 elif w < k:
                     if not day:  # 밤 인 경우
                         dq.append([y, x, w])
-                    else:
-                        visited[ny][nx] = w
+                    elif visited[ny][nx] > w + 1:
+                        visited[ny][nx] = w + 1
                         dq.append([ny, nx, w + 1])
     cnt += 1
     day = not day

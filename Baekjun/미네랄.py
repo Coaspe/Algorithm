@@ -18,7 +18,7 @@ def bfs(r, c):
     chunck = set([(r, c)])
     while queue:
         r, c = queue.popleft()
-        if r >= R-1:
+        if r == R-1:
             chunck, minDist = False, False
         for row, col in (r+1, c), (r-1, c), (r, c+1), (r, c-1):
             if 0 <= row <= R-1 and 0 <= col <= C-1 and cave[row][col] == 'x' and (row, col) not in visited:
@@ -44,7 +44,7 @@ for i in range(qn):
         if cave[R-q][j] == 'x':
             cave[R-q][j] = '.'
             for r, c in (R-q-1, j), (R-q, j + (1 if left else -1)), (R-q+1, j):
-                if 0 <= r <= R-1 and 0 <= c <= C-1 and cave[r][c] == 'x' and (r, c) not in visited:
+                if 0 <= r < R and 0 <= c < C and cave[r][c] == 'x' and (r, c) not in visited:
                     visited.add((r, c))
                     chunck, minDist = bfs(r, c)
                     if chunck:

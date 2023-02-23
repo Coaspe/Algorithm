@@ -73,9 +73,9 @@ visited[y][x] = True
 while True:
     day += 1
     found, next_queue = find_swan(lake, visited, queue)
+    queue = next_queue
     if found:
         break
     water = melt_ice(water, lake)
-    queue = next_queue
 
 print(day)
