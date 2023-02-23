@@ -17,6 +17,7 @@ while T:
     dp[c] = 0
     q = deque([(0, c)])
     ans = []
+
     while q:
         cost, cur = q.popleft()
         for nextCost, nextNode in D[cur]:

@@ -37,6 +37,7 @@ for x_y_z in range(3):
         edge.append(
             [before, cur, abs(planet[i][x_y_z] - planet[i - 1][x_y_z])])
         before = cur
+
 edge.sort(key=lambda v: v[2])
 
 parent = [i for i in range(N)]

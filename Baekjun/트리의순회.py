@@ -10,7 +10,7 @@ for i in range(N):
     nodeNum[inorder[i]] = i
 
 
-def preoder(inStart, inEnd, postStart, postEnd):
+def preorder(inStart, inEnd, postStart, postEnd):
     if inStart > inEnd or postStart > postEnd:
         return
 
@@ -21,8 +21,8 @@ def preoder(inStart, inEnd, postStart, postEnd):
 
     print(root, end=" ")
 
-    preoder(inStart, nodeNum[root] - 1, postStart, postStart + leftNode - 1)
-    preoder(nodeNum[root]+1, inEnd, postEnd - rightNode, postEnd-1)
+    preorder(inStart, nodeNum[root] - 1, postStart, postStart + leftNode - 1)
+    preorder(nodeNum[root]+1, inEnd, postEnd - rightNode, postEnd-1)
 
 
-preoder(0, N-1, 0, N-1)
+preorder(0, N-1, 0, N-1)

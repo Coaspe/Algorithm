@@ -21,9 +21,29 @@
 '''
 import math
 import sys
+import heapq
 from collections import defaultdict
 input = sys.stdin.readline
 INF = float('inf')
+# weight, cnt, cur
+
+
+def primHeap(start):
+    q = [(0, start)]
+
+    ans = 0
+    cnt = 0
+    while q:
+        if cnt == N:
+            break
+        w, cur = heapq.heappop(q)
+        if not visited[cur]:
+            visited[cur] = True
+            ans += w
+            cnt += 1
+            for c, n in graph[cur]:
+                heapq.heappush(q, (c, n))
+    return '{:.2f}'.format(ans)
 
 
 def prim(start):
@@ -81,4 +101,4 @@ if __name__ == '__main__':
             graph[j].append((dist, i))
 
     # 시작 정점은 임의로 1로 설정하여 프림 알고리즘 수행
-    print(prim(1))
+    print(primHeap(1))

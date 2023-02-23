@@ -1,4 +1,3 @@
-# 골드 3레벨        트리의 지름
 from sys import stdin
 from collections import deque
 
@@ -32,5 +31,5 @@ def bfs(start):
 
 
 dis, node = bfs(1)
-dis, node = bfs(node)
+dis, _ = bfs(node)
 print(dis)

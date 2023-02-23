@@ -4,6 +4,7 @@ f = [0]+list(map(int, sys.stdin.readline().split()))
 
 # 1 < m <= 200000 logm = 17.609...
 
+# x = m 일 때, 2^i 번째 위의 자식
 DP = [[f[i]] for i in range(m+1)]
 for j in range(1, 19):
     for i in range(1, m+1):

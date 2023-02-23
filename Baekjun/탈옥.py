@@ -14,7 +14,7 @@ def bfs(x, y):
         for i in range(4):
             nx = a + dx[i]
             ny = b + dy[i]
-            if nx >= 0 and ny >= 0 and nx < h+2 and ny < w+2 and visited[nx][ny] == -1:
+            if 0 <= nx < h+2 and 0 <= ny < w+2 and visited[nx][ny] == -1:
                 if graph[nx][ny] == "." or graph[nx][ny] == "$":
                     visited[nx][ny] = visited[a][b]
                     q.appendleft([nx, ny])
