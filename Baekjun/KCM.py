@@ -6,6 +6,7 @@ while T:
     # 공항의 수, 지원비용, 티켓정보의 수
     N, M, K = map(int, input().split())
     graph = defaultdict(list)
+    # 해당 비용을 사용하여 노드로 갈 수 있는 가장 짧은 소요시간.
     dp = [[math.inf] * N for _ in range(M+1)]
     for _ in range(K):
         u, v, c, d = map(int, input().split())

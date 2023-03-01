@@ -19,6 +19,7 @@ def find_swan(lake, visited, queue):
             ny = y + dy[ii]
             nx = x + dx[ii]
             if 0 <= ny < row and 0 <= nx < column and not visited[ny][nx]:
+                # 다음 melt ice에서 녹는 얼음
                 if lake[ny][nx] == 'X':
                     next_queue.append((ny, nx))
                 # L or .

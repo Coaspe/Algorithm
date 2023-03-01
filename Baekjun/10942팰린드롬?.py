@@ -27,6 +27,6 @@ for num_len in range(n):
 
 
 # 정답출력하기
-for question in range(m):
+for _ in range(m):
     s, e = map(int, input().split())
     print(dp[s-1][e-1])

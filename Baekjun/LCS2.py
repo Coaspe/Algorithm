@@ -3,6 +3,8 @@ input = sys.stdin.readline
 
 A = [""] + list(input().rstrip())
 B = [""] + list(input().rstrip())
+
+# A의 i번째까지의 문자열과 B의 j번째까지의 문자열의 LCS
 LCS = [[""]*len(B) for _ in range(len(A))]
 
 for i in range(1, len(A)):
