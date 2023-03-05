@@ -1,60 +1,56 @@
-def solution(commands):
-    answer = []
-    parent = [[(i, j) for j in range(51)] for i in range(51)]
-    board = [[""] * 51 for _ in range(51)]
+import sys
+sys.setrecursionlimit(10**6)
 
-    def find(r, c):
-        if parent[r][c] != (r, c):
-            parent[r][c] = find(*parent[r][c])
-        return parent[r][c]
+input = sys.stdin.readline
 
-    def union(p1, p2):
-        r1, c1 = find(*p1)
-        r2, c2 = find(*p2)
 
-        if [r1, c1] == [r2, c2]:
+def solve():
+    v, e = map(int, input().split())
+    stack, scc, cnt = [], [], [0]  # cnt를 내부함수 전역변수로 쓰기 위해
+    visited, finished = [0 for _ in range(v+1)], [False for _ in range(v+1)]
+    edge = [[] for _ in range(v+1)]
+    for _ in range(e):
+        a, b = map(int, input().split())
+        edge[b].append(a)
+        edge[a].append(b)
+
+    def dfs(now):
+        cnt[0] += 1
+        visited[now] = cnt[0]
+        stack.append(now)
+        result = visited[now]
+
+        for nxt in edge[now]:
+            if visited[nxt] == 0:
+                result = min(result, dfs(nxt))
+            elif not finished[nxt]:
+                result = min(result, visited[nxt])
+
+        if result == visited[now]:
+            group = []
+            while True:
+                top = stack.pop()
+                group.append(top)
+                finished[top] = True
+                if top == now:
+                    break
+            scc.append(group)
+
+        return result
+
+    for i in range(1, v+1):
+        if visited[i] == 0:
+            dfs(i)
+
+    for r in scc:
+        e = 0
+        for n in r:
+            e += len(edge[n])
+        e /= 2
+        if e != len(r):
+            print("No")
             return
-
-        parent[r2][c2] = (r1, c1)
-        v = board[r1][c1] if board[r1][c1] else board[r2][c2]
-        for i in range(51):
-            for j in range(51):
-                if find(i, j) == (r1, c1):
-                    board[i][j] = v
-
-    for command in commands:
-        command = command.split(" ")
-        if command[0] == "UPDATE":
-            if len(command) == 4:
-                r, c, s = int(command[1]), int(command[2]), command[3]
-                r1, c1 = find(r, c)
-                board[r1][c1] = s
-            else:
-                s1, s2 = command[1:]
-                for i in range(1, 51):
-                    for j in range(1, 51):
-                        if board[i][j] == s1:
-                            board[i][j] = s2
-        elif command[0] == "MERGE":
-            r1, c1, r2, c2 = map(int, command[1:])
-            union((r1, c1), (r2, c2))
-        elif command[0] == 'PRINT':
-            r, c = find(*map(int, command[1:]))
-            answer.append(board[r][c] if board[r][c] else "EMPTY")
-        elif command[0] == 'UNMERGE':
-            r, c = map(int, command[1:])
-            gp = find(r, c)
-            tmp = board[gp[0]][gp[1]]
-            for i in range(1, 51):
-                for j in range(1, 51):
-                    p = find(i, j)
-                    if p == gp:
-                        parent[i][j] = (i, j)
-                        board[i][j] = ""
-            board[r][c] = tmp
-    return answer
+    print("Yes")
 
 
-C = ["UPDATE 1 1 A", "UPDATE 2 2 B", "UPDATE 3 3 C", "UPDATE 4 4 D", "MERGE 1 1 2 2",
-     "MERGE 3 3 4 4", "MERGE 1 1 4 4", "UNMERGE 3 3", "PRINT 1 1", "PRINT 2 2", "PRINT 3 3", "PRINT 4 4"]
-print(solution(C))
+solve()
