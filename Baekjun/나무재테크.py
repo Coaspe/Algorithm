@@ -1,61 +1,51 @@
 import sys
 from collections import deque
 input = sys.stdin.readline
+
+dx = [-1, -1, -1, 0, 0, 1, 1, 1]
+dy = [-1, 0, 1, -1, 1, -1, 0, 1]
+
 N, M, K = map(int, input().split())
-nut_tmp = [list(map(int, input().split())) for _ in range(N)]
-nut = [[5]*N for _ in range(N)]
-# r, c, 나이, 생사
-trees = [[deque() for _ in range(N)] for _ in range(N)]
-tree_s = set()
-
+arr = [[5]*N for _ in range(N)]
+s2d2 = []
+tree = [[deque() for _ in range(N)] for _ in range(N)]
+for _ in range(N):
+    s2d2.append(list(map(int, input().split())))
 for _ in range(M):
-    r, c, l = list(map(int, input().split()))
-    r -= 1
-    c -= 1
-    trees[r][c].append((l, 1))
-    tree_s.add((r, c))
+    x, y, z = map(int, input().split())
+    tree[x-1][y-1].append(z)
 
-for r, c in tree_s:
-    trees[r][c] = deque(sorted(list(trees[r][c])))
-    print(trees[r][c])
-print(trees)
-while K:
-    for r, c in tree_s:
-        for idx, t in enumerate(trees[r][c]):
-            l, a = t
-            if nut[r][c] >= l:
-                nut[r][c] -= l
-                trees[r][c][idx] = (l+1, a)
-            else:
-                trees[r][c][idx] = (l, 0)
+while K > 0:
+    # 봄
+    for i in range(N):
+        for j in range(N):
+            t_len = len(tree[i][j])
+            for k in range(t_len):
+                if arr[i][j] >= tree[i][j][k]:
+                    arr[i][j] -= tree[i][j][k]
+                    tree[i][j][k] += 1
+                else:
+                    # 여름
+                    for _ in range(k, t_len):
+                        arr[i][j] += tree[i][j].pop() // 2
+                    break
 
-    for r, c in list(tree_s):
-        tmp = deque()
-        for l, a in trees[r][c]:
-            if a == 0:
-                nut[r][c] += l // 2
-            else:
-                tmp.append((l, a))
-
-        trees[r][c] = tmp
-
-        if len(trees[r][c]) == 0:
-            tree_s.remove((r, c))
-        else:
-            for l, a in trees[r][c]:
-                if l % 5 == 0:
-                    for row, col in (r+1, c), (r-1, c), (r, c+1), (r, c-1), (r-1, c-1), (r+1, c+1), (r+1, c-1), (r-1, c+1):
-                        if 0 <= row < N and 0 <= col < N:
-                            print(trees[row][col])
-                            trees[row][col].appendleft((1, 1))
-                            tree_s.add((row, col))
-
-    for r in range(N):
-        for c in range(N):
-            nut[r][c] += nut_tmp[r][c]
+    # 가을
+    for i in range(N):
+        for j in range(N):
+            for z in tree[i][j]:
+                if z % 5 == 0:
+                    for l in range(8):
+                        nx = i + dx[l]
+                        ny = j + dy[l]
+                        if 0 <= nx < N and 0 <= ny < N:
+                            tree[nx][ny].appendleft(1)
+            # 겨울
+            arr[i][j] += s2d2[i][j]
     K -= 1
 
-ans = 0
-for r, c in tree_s:
-    ans += len(trees[r][c])
-print(ans)
+result = 0
+for i in range(N):
+    for j in range(N):
+        result += len(tree[i][j])
+print(result)

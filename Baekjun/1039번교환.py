@@ -33,7 +33,9 @@ while q:
             n[i], n[j] = n[j], n[i]
             nn = int(''.join(n))
             n[i], n[j] = n[j], n[i]
+
             if (nn, k-1) not in visited:
                 q.append((nn, k-1))
                 visited.add((nn, k-1))
+
 print(answer if answer else -1)
