@@ -20,4 +20,5 @@ for plane in planes:
         break
     parent[docking] = parent[docking - 1]
     answer += 1
+
 print(answer)

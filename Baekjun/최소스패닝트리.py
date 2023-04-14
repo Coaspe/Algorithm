@@ -13,6 +13,7 @@ for _ in range(E):
 
 answer = 0
 cnt = 0
+
 while heap:
     if cnt == V:
         break

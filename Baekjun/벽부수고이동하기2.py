@@ -6,6 +6,7 @@ visited = [[K+1] * M for _ in range(N)]
 visited[0][0] = 0
 q = deque([(1, 0, 0)])
 ans = math.inf
+
 while q:
     move, r, c = q.popleft()
     if (r, c) == (N-1, M-1):
