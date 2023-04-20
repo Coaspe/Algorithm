@@ -56,7 +56,7 @@ def move_red(prev: Tuple[int, int], next: Tuple[int, int], move_p: int):
     next_f.extend(prev_f2)
     if len(file[prev]) == 0:
         del file[prev]
-    if len(file[])
+    # if len(file[])
 
 
 def move_blue(cur: Tuple[int, int], d: int):

@@ -1,19 +1,14 @@
-H, W = map(int, input().split())
-block = list(map(int, input().split()))
-stack = []
-answer = 0
-for i in block:
-    if not stack or stack[-1] <= i:
-        stack.append(i)
-    else:
-        # 계산
-        s = min(stack[0], stack[-1])
-        for ii in stack[1:-1]:
-            answer += (s-ii)
-        stack = [stack[-1], i]
+h, w = map(int, input().split())
+world = list(map(int, input().split()))
 
-if stack:
-    for ii in stack[1:]:
-        answer += (stack[0]-ii)
+ans = 0
+for i in range(1, w - 1):
+    left_max = max(world[:i])
+    right_max = max(world[i+1:])
 
-print(answer)
+    compare = min(left_max, right_max)
+
+    if world[i] < compare:
+        ans += compare - world[i]
+
+print(ans)
