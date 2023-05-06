@@ -79,8 +79,6 @@ def move_fish(MAP, shark):
             else:
                 new_d = (new_d + 1) % 9 + (1 if new_d + 1 == 9 else 0)
 
-# 2 3 4 5 6 7 8 1 2
-
 
 def move_shark(tmp_sum, MAP, shark):
     global ans
@@ -95,7 +93,6 @@ def move_shark(tmp_sum, MAP, shark):
             move_shark(tmp_sum + MAP[r][c][0], o, (r, c, MAP[r][c][1]))
 
 
-# Take (0, 0)
 ans = 0
 first = M[0][0][0]
 shark = (0, 0, M[0][0][1])
