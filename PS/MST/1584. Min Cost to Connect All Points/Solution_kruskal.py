@@ -1,5 +1,3 @@
-from typing import List
-
 class UnionFind:
     def __init__(self, size) -> None:
         self.parent = list(range(size))
@@ -15,11 +13,12 @@ class UnionFind:
 
         if child == parent:
             return False
-        
+
         self.parent[child] = parent
 
         return True
-    
+
+
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         all_edges = []
