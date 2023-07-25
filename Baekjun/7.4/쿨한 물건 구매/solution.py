@@ -5,7 +5,7 @@ smaller, larger = min(P, Q), max(P, Q)
 
 l = 0
 s = math.ceil(D / smaller)
-gap = math.ceil(larger // smaller)
+gap = math.ceil(larger / smaller)
 
 sub, ans = 10**9, 0
 
