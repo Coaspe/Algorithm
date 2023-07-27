@@ -11,11 +11,11 @@ def slope(p1, p2):
 
 points = [tuple(map(int, input().split())) for _ in range(N)]
 
-start = min(points, key=lambda p: (p[0], p[1]))
+start = min(points)
 
 points.pop(points.index(start))
 
-points.sort(key=lambda p: (slope(p, start)))
+points.sort(key=lambda p: (slope(p, start), p[0], p[1]))
 
 ans = [start]
 
@@ -23,5 +23,6 @@ for p in points:
     while len(ans) >= 2 and (cross(ans[-2], ans[-1], p) <= 0):
         ans.pop()
     ans.append(p)
+
 
 print(len(ans))
