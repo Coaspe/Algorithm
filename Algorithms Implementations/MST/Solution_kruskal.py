@@ -1,3 +1,6 @@
+from typing import List
+
+
 class UnionFind:
     def __init__(self, size) -> None:
         self.parent = list(range(size))
