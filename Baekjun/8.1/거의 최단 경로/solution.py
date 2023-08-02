@@ -1,56 +1,65 @@
-import math
+import sys
 import heapq
+from collections import deque
 
+INF = sys.maxsize
 
-def solution():
-    N = M = S = E = graph = not_allowed_paths = None
+while True:
+    n, m = map(int, sys.stdin.readline().rstrip().split())
+    if n == 0 and m == 0:
+        break
+    nodes = [[] for _ in range(n)]
+    nodes_inv = [[] for _ in range(n)]
+    edges = [[False for _ in range(n)] for _ in range(n)]
+    s, d = map(int, sys.stdin.readline().rstrip().split())
 
-    def dijk():
-        dist = [[math.inf, []]] * N
-        dist[S] = [0, [f'{S}']]
-        q = [(0, f'{S}')]
+    for _ in range(m):
+        u, v, p = map(int, sys.stdin.readline().rstrip().split())
+        nodes[u].append([v, p])
+        nodes_inv[v].append([u, p])
 
-        while q:
-            cost, path = heapq.heappop(q)
-            node = int(path[-1])
+    def Dijstra():
+        distances = [INF for _ in range(n)]
+        distances[s] = 0
 
-            if cost > dist[node][0]:
+        pq = []
+        heapq.heappush(pq, [0, s])
+
+        while pq:
+            cur_cost, cur_node = heapq.heappop(pq)
+
+            if distances[cur_node] < cur_cost:
                 continue
 
-            for next_node, next_cost in graph[node]:
-                new_cost = cost + next_cost
-                new_path = path + f'{next_node}'
+            for next_node, next_cost in nodes[cur_node]:
+                if edges[cur_node][next_node]:
+                    continue
+                if distances[next_node] > next_cost+cur_cost:
+                    distances[next_node] = next_cost+cur_cost
+                    heapq.heappush(pq, [next_cost+cur_cost, next_node])
 
-                if dist[next_cost][0] > new_cost:
-                    dist[next_cost] = [new_cost, [new_path]]
-                    heapq.heappush(q, [new_cost, new_path])
-                elif dist[next_cost][0] == cost:
-                    dist[next_cost][1].append(new_path)
-                    heapq.heappush(q, [new_cost, new_path])
+        return distances
 
-        return dist[E][1]
+    def BFS():
+        queue = deque()
+        queue.append(d)
 
-    while True:
-        N, M = map(int, input().split())
+        while queue:
+            cur_node = queue.popleft()
 
-        if N == M == 0:
-            return
+            if cur_node == s:
+                continue
 
-        S, E = map(int, input().split())
+            for post_node, post_cost in nodes_inv[cur_node]:
+                if distances[post_node] + post_cost == distances[cur_node] and not edges[post_node][cur_node]:
+                    # cur_node로 향하는 이전 간선 비용을 사용했을 때 distances에 기록된 비용이라면 곧 최단 경로에 사용했다는 뜻이다.
+                    edges[post_node][cur_node] = True
+                    queue.append(post_node)
 
-        graph = [[] for _ in range(N)]
-        not_allowed_paths = [[0] * N for _ in range(N)]
-
-        for _ in range(M):
-            u, v, p = map(int, input().split())
-            graph[u].append((v, p))
-
-        paths = dijk()
-        print(paths)
-        for path in paths:
-            path = map(int, list(path))
-            for idx in range(1, len(path)):
-                not_allowed_paths[path[idx - 1]][path[idx]] = 1
-
-
-solution()
+    distances = Dijstra()
+    BFS()
+    distances = Dijstra()
+    if distances[d] == INF:
+        print(-1)
+    else:
+        print(distances[d])
