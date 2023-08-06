@@ -7,8 +7,8 @@ class Solution:
     ) -> List[int]:
         LOG = 21
         parent = [[0] * LOG for _ in range(n)]
-        d = [0] * (n + 1)
-        c = [0] * (n + 1)
+        d = [0] * n
+        c = [0] * n
         graph = [[] for _ in range(n)]
 
         for a, b in edges:
@@ -65,34 +65,34 @@ class Solution:
 
         ans = []
 
-        for s, e, node in query:
-            parent_u = [i for i in range(n + 1)]
-            rank = [0 for _ in range(n + 1)]
+        for idx, (s, e, node) in enumerate(query):
+            parent_u = [i for i in range(n)]
+            rank = [0 for _ in range(n)]
             LCA = lca(s, e)
 
             if d[LCA] >= d[node]:
                 ans.append(LCA)
-            else:
-                while s != LCA:
-                    next_node = parent[s][0]
-                    union_by_rank(s, next_node, parent_u)
-                    s = next_node
+                continue
 
-                while find(e, parent_u) != find(LCA, parent_u):
-                    next_node = parent[e][0]
-                    union_by_rank(e, next_node, parent_u)
-                    e = next_node
+            while s != LCA:
+                next_node = parent[s][0]
+                union_by_rank(s, next_node, parent_u)
+                s = next_node
 
-                pp = find(LCA, parent_u)
+            while e != LCA:
+                next_node = parent[e][0]
+                union_by_rank(e, next_node, parent_u)
+                e = next_node
 
-                flag = False
-                while find(node, parent_u) != pp:
-                    node = parent[node][0]
-                    if d[LCA] >= d[node]:
-                        ans.append(LCA)
-                        flag = True
-                        break
+            pp = find(LCA, parent_u)
 
-                if not flag:
-                    ans.append(node)
+            while find(node, parent_u) != pp:
+                node = parent[node][0]
+                if d[LCA] >= d[node]:
+                    ans.append(LCA)
+                    break
+
+            if len(ans) != idx + 1:
+                ans.append(node)
+
         return ans
