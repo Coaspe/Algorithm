@@ -3,8 +3,8 @@ class SegmentTree:
         if start == end:
             tree[node] = a[start]
         else:
-            self.init(a, tree, node * 2, start, (start+end) // 2)
-            self.init(a, tree, node * 2 + 1, (start+end) // 2 + 1, end)
+            self.init(a, tree, node * 2, start, (start + end) // 2)
+            self.init(a, tree, node * 2 + 1, (start + end) // 2 + 1, end)
             tree[node] = tree[2 * node + 1] + tree[2 * node]
 
     def __init__(self, a, tree, node, start, end):
@@ -18,8 +18,8 @@ class SegmentTree:
         if left <= start and end <= right:
             return self.tree[node]
 
-        lsum = self.query(node*2, start, (start+end) // 2, left, right)
-        rsum = self.query(node*2+1, (start+end) // 2 + 1, end, left, right)
+        lsum = self.query(node * 2, start, (start + end) // 2, left, right)
+        rsum = self.query(node * 2 + 1, (start + end) // 2 + 1, end, left, right)
 
         return lsum + rsum
 
@@ -30,9 +30,9 @@ class SegmentTree:
             self.a[index] = val
             self.tree[node] = val
             return
-        self.update(node*2, start, (start+end)//2, index, val)
-        self.update(node*2+1, (start+end)//2+1, end, index, val)
-        self.tree[node] = self.tree[node*2] + self.tree[node*2+1]
+        self.update(node * 2, start, (start + end) // 2, index, val)
+        self.update(node * 2 + 1, (start + end) // 2 + 1, end, index, val)
+        self.tree[node] = self.tree[node * 2] + self.tree[node * 2 + 1]
 
 
 class ST:
@@ -50,13 +50,9 @@ class ST:
 
     # function to update a tree node
     def updateTreeNode(self, p, value, n):
-
         # set value at position p
-        self.tree[p + n] = value
-        p = p + n
-
-        # move upward and update parents
-        i = p
+        i = p + n
+        self.tree[i] += value
 
         while i > 1:
             self.tree[i >> 1] = self.tree[i] + self.tree[i ^ 1]
@@ -64,7 +60,6 @@ class ST:
 
     # function to get sum on interval [l, r)
     def query(self, l, r, n):
-
         res = 0
 
         # loop to find the sum in the range
@@ -72,7 +67,6 @@ class ST:
         r += n
 
         while l < r:
-
             if l & 1:
                 res += self.tree[l]
                 l += 1
@@ -94,10 +88,9 @@ class ST:
 """
 
 if __name__ == "__main__":
-
     a = [2, 3, 5, 1, 2, 4, 3]
     n = len(a)
-    tree = [0]*(n*2)
+    tree = [0] * (n * 2)
     st = ST(tree)
 
     st.build(a, n)
