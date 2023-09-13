@@ -27,25 +27,18 @@ print(solve(0, len(S) - 1))
 ##################################################
 s = input()
 ll = len(s)
-
-# dp[i] = i 이후로 존재하는 팰린드롬의 수
+# dp[i] = i 번째 요소를 포함하는 i 이후에 존재하는 펠린드롬
 dp = [1]
 
-"""
-a b a b c c b
-"""
 for x in range(1, ll):
     c = 1
     for y in range(x - 1, -1, -1):
+        c += dp[y]
         if s[x] == s[y]:
-            dp[y] += c
+            dp[y] = c
             dp[y] %= 10007
-            c = dp[y]
-        else:
-            c += dp[y]
-        # print(c, dp)
+        print(dp)
 
     dp.append(1)
 
-print(dp)
 print(sum(dp) % 10007)
