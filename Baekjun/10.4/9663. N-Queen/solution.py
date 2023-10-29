@@ -5,6 +5,7 @@ N = int(input())
 
 def dfs(queen, row):
     count = 0
+
     if row == N:
         return 1
 
