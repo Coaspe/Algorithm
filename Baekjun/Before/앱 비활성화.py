@@ -1,23 +1,25 @@
-N, M = map(int, input().split())
-A = [0] + list(map(int, input().split()))  # byte
-C = [0] + list(map(int, input().split()))  # cost
-sCost = sum(C)
-dp = [[0 for _ in range(sum(C)+1)] for _ in range(N+1)]  # 냅색알고리즘이 실행될 dp
-result = sum(C)  # 열의 최댓값
+def solution():
+    N, M = map(int, input().split())
+    # 활성화 되어 있는 앱의 바이트 수
+    A = list(map(int, input().split()))
+    # 비활성화 했을 경우의 비용
+    C = list(map(int, input().split()))
+    MAX = 100 * 100 + 1
 
-for i in range(1, N+1):
-    byte = A[i]
-    cost = C[i]
+    # 비활성화 비용으로 총 i만큼 사용했을 때, 확보한 최대 바이트 수
+    dp = [-1] * (MAX)
+    dp[0] = 0
 
-    for j in range(1, sCost + 1):
-        if cost > j:
-            dp[i][j] = dp[i-1][j]
-            continue
-        dp[i][j] = max(dp[i-1][j], byte + dp[i-1][j-cost])
+    for i in range(N):
+        for j in range(MAX - 1, -1, -1):
+            if dp[j] != -1 and j + C[i] < MAX:
+                dp[j + C[i]] = max(dp[j + C[i]], dp[j] + A[i])
 
-        if dp[i][j] >= M:
-            result = min(result, j)
-if M != 0:
-    print(result)
-else:
-    print(0)
+    for i in range(MAX):
+        if dp[i] >= M:
+            print(i)
+            break
+
+
+if __name__ == "__main__":
+    solution()
