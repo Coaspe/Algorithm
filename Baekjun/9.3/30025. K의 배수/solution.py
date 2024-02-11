@@ -16,7 +16,6 @@ def countKMultiples(N, M, K, chosen_digits):
         for j in range(N):
             for k in range(K):
                 next_num = k * 10 + chosen_digits[j]
-                print(next_num)
                 dp[i][next_num % K] = (dp[i][next_num % K] + dp[i - 1][k]) % MOD
 
     return dp[M][0]
