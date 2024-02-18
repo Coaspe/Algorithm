@@ -1,18 +1,31 @@
-from bisect import bisect_left, bisect_right
+answer = 0
+n = int(input())
+nums = sorted(list(map(int, input().split())))
 
-N = int(input())
-A = list(map(int, input().split()))
+for i in range(n - 2):
+    left = i + 1
+    right = n - 1
+    target = -nums[i]
+    max_idx = n
 
-A.sort()
-ans = 0
+    if target < 0:
+        break
 
-for i in range(N - 2):
-    for j in range(i + 1, N - 1):
-        S = A[i] + A[j]
+    while left < right:
+        two_sum = nums[left] + nums[right]
+        if two_sum > target:
+            right -= 1
+        elif two_sum < target:
+            left += 1
+        else:
+            if nums[left] == nums[right]:
+                answer += right - left
+            else:
+                if max_idx > right:
+                    max_idx = right
+                    while max_idx >= 0 and nums[max_idx - 1] == nums[right]:
+                        max_idx -= 1
+                answer += right - max_idx + 1
+            left += 1
 
-        l = bisect_left(A, -S, j + 1, N)
-        r = bisect_right(A, -S, j + 1, N)
-
-        ans += r - l
-
-print(ans)
+print(answer)

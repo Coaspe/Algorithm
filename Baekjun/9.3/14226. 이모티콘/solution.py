@@ -1,15 +1,24 @@
-S = int(input())
+n = int(input())
+MAX = 1e9
+q = [(1, 0, 0)]
+check = [MAX for _ in range(2001)]
+visited = [False for _ in range(1001)]
 
-# 클립보드로 저장
-# 클립보드에 있는 거 복사
-# 화면에 한 개 삭제
+while q:
+    now, time, cpy = q.pop(0)
+    check[now] = time
 
-# dp[i][j] -> 클립 i개이고, 화면 j개 저장할떄까지 걸리는 최소 시간
+    if now == n:
+        print(int(time))
+        break
 
-dp = [[0] * (S + 1) for _ in range(S + 1)]
-for i in range(1, S + 1):
-    dp[0][i] = i
-
-for i in range(1, S + 1):
-    for j in range(1, S + 1):
-        dp[i][j] = min(dp[i][j])
+    # 1. - 1
+    if now > 0 and time < check[now]:
+        q.append((now - 1, time + 1, cpy))
+    # 2. +cpy
+    if now + cpy <= 1000 and time < check[now + cpy]:
+        q.append((now + cpy, time + 1, cpy))
+    # 3. execute copy
+    if now <= 500 and not visited[now]:
+        visited[now] = True
+        q.append((now, time + 1, now))

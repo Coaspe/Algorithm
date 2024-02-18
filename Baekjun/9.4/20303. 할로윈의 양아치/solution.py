@@ -37,28 +37,14 @@ for i in range(N):
         candy[p][1] += candy[i][1]
 
 
-dp = [[0] * (K) for _ in range(N)]
-dp[0][candy[0][1]] = candy[0][0]
+dp = [0] * (K)
 
-for i in range(1, N):
+for i in range(N):
     if parent[i] != i:
         continue
     for j in range(K - 1, candy[i][1] - 1, -1):
-        dp[i][j] = max(dp[i][j], dp[i - 1][j - candy[i][1]] + candy[i][0])
+        dp[j] = max(dp[j], dp[j - candy[i][1]] + candy[i][0])
+        print(i, j)
+        print(*dp)
 
-# l = len(groups)
-# dp = [[0] * K for _ in range(l)]
-
-# for i in range(groups[0][0], K):
-#     dp[0][i] = groups[0][1]
-
-# for i in range(1, l):
-#     weight, value = groups[i]
-
-#     for j in range(K):
-#         dp[i][j] = dp[i - 1][j]
-
-#         if j >= weight:
-#             dp[i][j] = max(dp[i - 1][j - weight] + value, dp[i][j])
-
-# print(dp[-1][-1])
+print(dp[-1])

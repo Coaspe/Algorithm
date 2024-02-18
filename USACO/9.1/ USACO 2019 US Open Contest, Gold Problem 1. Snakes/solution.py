@@ -17,6 +17,7 @@ for i in range(1, N + 1):
     for j in range(1, K + 1):
         dp[i][j] = math.inf
         net_size = A[i]
+
         for c in range(i - 1, -1, -1):
             dp[i][j] = min(dp[i][j], dp[c][j - 1] + (i - c) * net_size)
             net_size = max(net_size, A[c])
