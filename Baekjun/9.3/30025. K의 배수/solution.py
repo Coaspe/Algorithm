@@ -2,8 +2,8 @@ MOD = 1000000007
 
 
 def countKMultiples(N, M, K, chosen_digits):
-    # dp[i][j]는 i자리 양의 정수를 만들 때, 나머지가 j인 경우의 수
     dp = [[0] * K for _ in range(M + 1)]
+    # dp[i][j]는 i 자리 양의 정수를 만들 때, 나머지가 j인 경우의 수를 나타냅니다.
 
     # 맨 앞 자리를 제외한 숫자로 1자리 양의 정수를 만드는 경우
     for i in range(N):
@@ -15,14 +15,17 @@ def countKMultiples(N, M, K, chosen_digits):
     for i in range(2, M + 1):
         for j in range(N):
             for k in range(K):
-                next_num = k * 10 + chosen_digits[j]
-                print(next_num)
-                dp[i][next_num % K] = (dp[i][next_num % K] + dp[i - 1][k]) % MOD
+                dp[i][(k * 10 + chosen_digits[j]) % K] += dp[i - 1][k]
+                dp[i][(k * 10 + chosen_digits[j]) % K] %= MOD
 
-    return dp[M][0]
+    return dp[M - 1][0]
 
 
-# 입력 받기
+# ab % K = k
+# (ab*10 + c) % K
+#  ab = z * K + k
+# (10*K*z+k*10 + c) % K
+# (K*10 + c) % K
 N, M, K = map(int, input().split())
 chosen_digits = list(map(int, input().split()))
 

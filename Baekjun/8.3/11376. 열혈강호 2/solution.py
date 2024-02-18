@@ -24,6 +24,8 @@ for i in range(N):
     if dfs(i):
         result += 1
 
+    check = [0] * (M + 1)
+
     if dfs(i):
         result += 1
 

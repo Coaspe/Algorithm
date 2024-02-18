@@ -1,7 +1,7 @@
 from sys import stdin
 
 n = int(stdin.readline())
-t, p = [], []
+t, p = [0], [0]
 dp = [0 for _ in range(n + 1)]
 
 for _ in range(n):
@@ -9,11 +9,12 @@ for _ in range(n):
     t.append(ti)
     p.append(pi)
 
-k = 0
-for i in range(n):
-    k = max(k, dp[i])
-    if i + t[i] > n:
+for i in range(1, n + 1):
+    dp[i] = max(dp[i], dp[i - 1])
+    fin_date = i + t[i] - 1
+
+    if fin_date:
         continue
-    dp[i + t[i]] = max(k + p[i], dp[i + t[i]])
+    dp[fin_date] = max(dp[i - 1] + p[i], dp[fin_date])
 
 print(max(dp))

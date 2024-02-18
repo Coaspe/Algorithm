@@ -19,17 +19,13 @@ def bf():
 
     for i in range(N):
         for s, e, c in graph:
-            if dist[s] != maxsize and dist[e] > dist[s] + c:
+            if dist[e] > dist[s] + c:
                 dist[e] = dist[s] + c
 
                 if i == N - 1:
                     print("YES")
                     return
 
-    for i in dist:
-        if i < 0:
-            print("YES")
-            return
     print("NO")
 
 

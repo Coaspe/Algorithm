@@ -3,6 +3,7 @@ A = list(map(int, input().split()))
 MOD = 1e9 + 7
 # dp[i][j] = i번째 사람까지 봤을 떄, 총 j개의 사탕을 나누어줄수 있는 경우의 수
 dp = [[0] * (K + 1) for _ in range(N)]
+# P[i] = sum(dp[i-1][j-k]) 1 <= k <= A[i]
 P = [0] * (K + 2)
 
 for i in range(N):

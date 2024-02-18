@@ -7,17 +7,23 @@ c 라는 값을 계속 K 로 나눈 나머지를 관리한다.
 그럼 총 정답에 그 거리의 합 모두가 더해져야 하는데, 더 움직여야 할 블롭들의 개수들이 각 칸마다 정답에 더해지는 것은 옳다.
 """
 
-n, m = map(int, input().split())
+N, K = map(int, input().split())
 l = list(map(int, input().split()))
-c = l[0] % m
+c = l[0] % K
 ans = 0
 
-for i in range(1, n):
-    p = l[i]
-    ans += c if c <= m // 2 else m - c
-    c = (c + p) % m
+for i in range(1, N):
+    if K // 2 >= c:
+        ans += c
+        print("1", c)
+    else:
+        ans += K - c
+        print("2", c)
 
-if c > 0:
+    # ans += c if c <= K // 2 else K - c
+    c = (c + l[i]) % K
+
+if c:
     print("blobsad")
 else:
     print(ans)

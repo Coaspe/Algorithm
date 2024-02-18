@@ -1,34 +1,53 @@
-from sys import stdin
+def func(idx, A):
+    for i in range(6):
+        if A[idx][0] == 0:
+            break
+
+        if idx == i:
+            continue
+
+        if A[idx][0] >= A[i][2]:
+            A[idx][0] -= A[i][2]
+            A[i][2] = 0
+        else:
+            A[i][2] -= A[idx][0]
+            A[idx][0] = 0
+
+    return A[idx][0]
 
 
 def solution():
-    input = stdin.readline
+    ans = []
+    for _ in range(4):
+        AA = list(map(int, input().split()))
+        A = [AA[i : i + 3] for i in range(0, 16, 3)]
+        print(A)
+        draw = 0
 
-    N = int(input())
-    dices = [list(map(int, input().split())) for _ in range(N)]
+        for idx, a in enumerate(A):
+            print(a)
+            # 승 = i-2, 무 = i-1, 패 = i
+            if sum(a) != 5:
+                ans.append(0)
+                break
 
-    M = [5, 3, 4, 1, 2, 0]
+            draw = abs(draw - a[1])
 
-    def find_max(idx, die):
-        max_val = 0
-        for i in range(6):
-            if i == idx or i == M[idx]:
-                continue
-            max_val = max(max_val, die[i])
+            if func(idx, A):
+                break
 
-        return max_val
+        if len(ans) == _ + 1:
+            continue
 
-    ans = 0
+        for a, _, b in A:
+            if a != 0 or b != 0:
+                ans.append(0)
+                break
 
-    for bottom in range(1, 7):
-        ans_tmp = 0
-        for die in dices:
-            idx = die.index(bottom)
-            ans_tmp += find_max(idx, die)
-            bottom = die[M[idx]]
-        ans = max(ans, ans_tmp)
+        if len(ans) != _ + 1:
+            ans.append(1)
 
-    print(ans)
+    print(*ans)
 
 
 if __name__ == "__main__":

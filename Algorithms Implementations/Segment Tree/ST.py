@@ -15,6 +15,7 @@ class SegmentTree:
     def query(self, node, start, end, left, right):
         if left > end or right < start:
             return 0
+
         if left <= start and end <= right:
             return self.tree[node]
 
@@ -26,10 +27,12 @@ class SegmentTree:
     def update(self, node, start, end, index, val):
         if index < start or index > end:
             return
+
         if start == end:
             self.a[index] = val
             self.tree[node] = val
             return
+
         self.update(node * 2, start, (start + end) // 2, index, val)
         self.update(node * 2 + 1, (start + end) // 2 + 1, end, index, val)
         self.tree[node] = self.tree[node * 2] + self.tree[node * 2 + 1]
