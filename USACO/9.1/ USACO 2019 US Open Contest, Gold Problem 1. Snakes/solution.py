@@ -3,7 +3,7 @@ import math
 N, K = map(int, input().split())
 A = [0] + list(map(int, input().split()))
 
-
+# dp[i][j] = i번째 뱀까지 j번 바꾼 상태에서 사용하는 총 net size
 dp = [[0] * (K + 1) for _ in range(N + 1)]
 
 largest = -1
@@ -17,6 +17,7 @@ for i in range(1, N + 1):
     for j in range(1, K + 1):
         dp[i][j] = math.inf
         net_size = A[i]
+
         for c in range(i - 1, -1, -1):
             dp[i][j] = min(dp[i][j], dp[c][j - 1] + (i - c) * net_size)
             net_size = max(net_size, A[c])

@@ -31,6 +31,7 @@ ll = len(s)
 dp = [1]
 
 for x in range(1, ll):
+    # 처음 1은 x를 의미한다.
     c = 1
     for y in range(x - 1, -1, -1):
         c += dp[y]

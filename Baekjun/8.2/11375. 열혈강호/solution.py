@@ -1,6 +1,3 @@
-import sys
-
-sys.setrecursionlimit(100000)
 n, m = map(int, input().split())
 task = [list(map(int, input().split()))[1:] for _ in range(n)]
 
@@ -13,7 +10,6 @@ def dfs(x):
             check[i] = True
             if visit[i] == -1 or dfs(visit[i]):
                 visit[i] = x
-                print(visit, result)
                 return True
     return False
 
