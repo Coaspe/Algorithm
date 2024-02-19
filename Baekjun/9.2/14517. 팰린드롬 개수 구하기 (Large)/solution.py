@@ -37,8 +37,6 @@ for x in range(1, ll):
         if s[x] == s[y]:
             dp[y] = c
             dp[y] %= 10007
-        print(dp)
-
     dp.append(1)
 
 print(sum(dp) % 10007)

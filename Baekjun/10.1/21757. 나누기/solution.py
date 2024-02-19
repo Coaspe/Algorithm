@@ -6,6 +6,7 @@ sa = []
 for i in arr:
     total += i
     sa.append(total)
+print(sa)
 if total % 4 != 0:
     print(0)
 else:

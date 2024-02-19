@@ -2,22 +2,22 @@ from typing import List
 
 
 class Solution:
-    def build(arr, n, tree):
+    def build(self, arr, n, tree):
         for i in range(n):
-            tree[n+i] = arr[i]
+            tree[n + i] = arr[i]
 
-        for i in range(n-1, 0, -1):
+        for i in range(n - 1, 0, -1):
             tree[i] = tree[i << 1] + tree[i << 1 | 1]
 
     # implement segment tree
-    def update(index, value, tree):
+    def update(self, index, value, tree):
         tree[index] += value
 
         while index > 1:
             index //= 2
             tree[index] = tree[index * 2] + tree[index * 2 + 1]
 
-    def query(left, right, tree, n):
+    def query(self, left, right, tree, n):
         result = 0
         left += n
         right += n

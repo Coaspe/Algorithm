@@ -44,10 +44,10 @@ def check():
     max_val = 0
     for i in range(1, N + 1):
         max_val = max(A[i], max_val)
-
+        # B 값이 1인데 현재까지의 최대 값이 i와 다르면 안 된다.
         if B[i] and max_val != i:
             return 0
-
+        # B 값이 0인데 현재까지의 최대 값이 i와 같으면 안 된다.
         if not B[i] and max_val == i:
             return 0
 
