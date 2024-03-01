@@ -1,3 +1,4 @@
 rust
-settings.json
-tasks.json
+.vscode
+.DS_Store
+paper.py
