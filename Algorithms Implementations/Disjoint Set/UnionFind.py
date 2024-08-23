@@ -1,3 +1,5 @@
+V = int(input())
+
 parent = [i for i in range(V + 1)]
 rank = [0 for _ in range(V + 1)]
 
