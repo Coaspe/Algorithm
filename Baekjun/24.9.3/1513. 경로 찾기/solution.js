@@ -1,5 +1,3 @@
-/** @format */
-
 let fs = require("fs");
 let input = fs.readFileSync("/dev/stdin").toString().split("\n");
 let [N, M, C] = input[0].split(" ").map((e) => Number(e));
