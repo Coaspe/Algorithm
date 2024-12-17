@@ -5,14 +5,14 @@ dp = [0] * (N)
 
 V = [list(map(int, input().split()))[::-1] for _ in range(N)]
 V.sort()
+# 원하는 등수, 실력
 
+ans = 0
 for i in range(2, N):
-    for a in range(2, min(i + 1, 5)):
-        if V[i][0] - V[i - a][0] > K:
+    dp[i] = dp[i - 1]
+    for j in range(2, min(i + 1, 5)):
+        if V[i][0] - V[i - j][0] > K:
             break
 
-        for b in range(1, a):
-            acc = V[i][1] + V[i - a][1] + V[i - b][1]
-            dp[i] = max(dp[i - 1], dp[i - a - 1] + acc)
-
-print(dp[-1])
+        for k in range(i - j + 1, i):
+            dp[i] = max(dp[i], dp[i - j - 1] + V[i][1] + V[i - j][1] + V[k][1])
