@@ -20,9 +20,8 @@ parent = list(range(N + 1))
 
 
 def find(a):
-    if a == parent[a]:
-        return parent[a]
-    parent[a] = find(parent[a])
+    if a != parent[a]:
+        parent[a] = find(parent[a])
     return parent[a]
 
 
