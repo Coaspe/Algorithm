@@ -1,47 +1,4 @@
 use std::io::{self, BufRead};
-fn right(arr: &Vec<i64>, mut max_val: i64, mut idx: usize) -> (i64, usize) {
-    let mut lm = max_val;
-    let mut lidx = idx;
-
-    while idx < arr.len() {
-        max_val += arr[idx];
-
-        if max_val > lm {
-            lm = max_val;
-            lidx = idx + 1;
-        }
-
-        if max_val < 0 {
-            break;
-        }
-
-        idx += 1;
-    }
-
-    (lm, lidx)
-}
-
-fn left(arr: &Vec<i64>, mut max_val: i64, mut idx: isize) -> (i64, isize) {
-    let mut lm = max_val;
-    let mut lidx = idx;
-
-    while idx >= 0 {
-        max_val += arr[idx as usize];
-
-        if max_val > lm {
-            lm = max_val;
-            lidx = idx - 1;
-        }
-
-        if max_val < 0 {
-            break;
-        }
-
-        idx -= 1;
-    }
-
-    (lm, lidx)
-}
 fn main() {
     let stdin = io::stdin();
     let mut iterator = stdin.lock().lines();
