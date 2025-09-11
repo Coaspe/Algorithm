@@ -1,34 +1,52 @@
-from sys import stdin
+import sys
+from collections import deque
 
-R, C = map(int, input().split())
-
-input = stdin.readline
-B = [list(input().split()) for _ in range(R)]
-
-# A,B
-pr = [[0] * C for _ in range(R)]
-pc = [[0] * C for _ in range(R)]
+input = sys.stdin.readline
 
 
-for i in range(R):
-    for j in range(C):
-        if j > 0:
-            pr[i][j] += pr[i][j - 1]
-            if B[i][j - 1][0] == "A":
-                pr[i][j] += int(B[i][j - 1][1:])
-        if i > 0:
-            pc[i][j] += pc[i - 1][j]
-            if B[i - 1][j][0] == "B":
-                pc[i][j] += int(B[i - 1][j][1:])
-dp = [[0] * C for _ in range(R)]
+n, l = map(int, input().split())
+vis = [0] * (n + 1)
+rvis = [0] * (l + 1)
+rail = [list(map(int, input().split())) for _ in range(l)]
+g = [[] for _ in range(n + 1)]
 
-for r in range(R):
-    for c in range(C):
-        if r > 0:
-            dp[r][c] = dp[r - 1][c] + pr[r][c]
-        if c > 0:
-            dp[r][c] = max(dp[r][c], dp[r][c - 1] + pc[r][c])
-        if r > 0 and c > 0:
-            dp[r][c] = max(dp[r][c], dp[r - 1][c - 1] + pr[r][c] + pc[r][c])
+for i in range(l):
+    for j in rail[i]:
+        if j == -1:
+            break
+        g[j].append(i)
 
-print(dp[-1][-1])
+
+st, en = map(int, input().split())
+
+
+q = deque()
+
+q.append(st)
+vis[st] = 1
+flag = 0
+while q:
+    cur = q.popleft()
+
+    if cur == en:
+
+        if st == en:
+            print(0)
+
+        else:
+            print(vis[cur] - 2)
+        flag = 1
+        break
+
+    for i in g[cur]:
+        if vis[i]:
+            continue
+        for j in rail[i]:
+            if vis[j] or j == -1:
+                continue
+            vis[j] = vis[cur] + 1
+            q.append(j)
+
+
+if not flag:
+    print(-1)
